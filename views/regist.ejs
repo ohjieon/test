@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include("./head.ejs") %>
+    </head>
+    <body>
+        <div class="container">
+            <form action="/regist" method="POST">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">농장 번호</span>
+                    <input type="text" class="form-control" placeholder="농장 번호" name=_no>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">농장 이름</span>
+                    <input type="text" class="form-control" placeholder="농장 이름" name=_name>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">농장 주소</span>
+                    <input type="text" class="form-control" placeholder="농장 주소" name=_address>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"> 공개 여부 </span>
+                    <input type="radio" name="_linkcode" value="0" checked> 비공개
+                    <input type="radio" name="_linkcode" value="1"> 1번 농장 공개
+                    <input type="radio" name="_linkcode" value="2"> 2번 농장 공개
+                </div>
+                <div align="center">
+                    <button type="submit" class="btn btn-primary">등록</button>
+                </div>
+                </form>
+        </div>
+    </body>
+</html>

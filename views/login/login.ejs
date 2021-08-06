@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include("../head.ejs")%>
+    </head>
+    <body>
+        <div class="container">
+            <form action="/login" method="post">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">ID</span>
+                    <input type="text" class="form-control" placeholder="ID" name="_id" >
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Password</span>
+                    <input type="password" class="form-control" placeholder="Password" name="_password">
+                </div>
+                <input type="submit" class="btn btn-primary" value="login">
+                
+                <span class="btn btn-success" onclick="location.href='/login/signup'">회원가입</span>
+            </form>
+        </div>
+    </body>
+</html>

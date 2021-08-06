@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include("./head.ejs") %>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            .toggle {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <%if(info.length > 0){%>
+                <div>
+                    <span>
+                        <%=farm_no %>
+                    </span>
+                    <span>
+                        <%=name %>
+                    </span>
+                    </div>
+            <%}%>
+            <button onclick="window.history.back()" class="btn btn-info">리스트</button>
+            <button class="btn btn-success" id="gragh">그래프</button>  
+            <button class="btn btn-secondary" id="video">비디오</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>온도</th>
+                        <th>습도</th>
+                        <th>날짜</th>
+                        <th>시간</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(info.length == 0){%>
+                        <tr>
+                            <td colspan="4">데이터가 없습니다</td>
+                        </tr>
+                    <%}else{
+                        for(var i=0; i<info.length;i++){%>
+                            <tr>
+                                <td><%=info[i].temp%></td>
+                                <td><%=info[i].hud%></td>
+                                <td><%=info[i].date%></td>
+                                <td><%=info[i].time%></td>
+                            </tr>
+                    <%}}%>
+                </tbody>
+            </table>
+            <div id="can">
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <div id="vid">
+                <!--
+                    video 태그의 속성
+                        autoplay : 동영상 자동 재생
+                        controls : 조작 메뉴를 보여준다
+                        loop : 동영상 반복 재생
+                        preload : 페이지가 오픈이 되면 어떤걸 로드를 할지
+                                    auto -> 동영상, 메타데이터 전부 로드
+                                    metadata -> 메타데이터만 로드
+                                    none -> 로드 x
+                -->
+                <video autoplay muted height="400px">
+                    <source src="./video/Bada.mp4" type="video/mp4">
+                    text
+                </video>
+            </div>
+
+            <script>
+                //labels-> 날짜, 시간
+                //data->온도 습도
+                
+                const temp = '<%=temp%>'.slice(0,-1); //마지막 문자열 삭제->1,2,3,4,5
+                const hud = '<%=hud%>'.slice(0,-1);
+                const time = '<%=time%>'.slice(0,-1);
+                const labels = time.split(","); //split의 역할: ,를 기준으로 쪼개다. -> 배열을 만들어준다 //쪼갤때마다 배열에 하나씩 들어간다.[1 , 2 , 3 , 4 , 5]<-배열안에 있는 ,
+                const data1 = temp.split(",");
+                const data2 = hud.split(",");
+
+                const data = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '온도',
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: data1,
+                        },
+                        {
+                            label: '습도',
+                            backgroundColor: 'rgb(0, 99, 132)',
+                            borderColor: 'rgb(50, 99, 100)',
+                            data: data2,
+                        }
+                    ]
+                };
+                const config = {
+                    type: 'line',
+                    data: data,
+                    options: {
+                            responsive: true,
+                            interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        stacked: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Chart.js Line Chart - Multi Axis'
+                            }
+                        },
+                        scales: {
+                            y: {type: 'linear',
+                                display: true,
+                                position: 'left',
+                                min : 0,
+                                max : 40,
+                                ticks:{
+                                    stepSize : 3
+                                }
+                            }
+                        }
+                    },
+                };
+                var myChart = new Chart(
+                  document.getElementById('myChart'),
+                  config
+                );
+                var a= false
+                $("#gragh").click(function(){
+                    if(!a){
+                        $("canvas").hide();
+                        a =true
+                    }else{
+                        $("canvas").show();
+                        a = false
+                    }
+                    //$("#can").toggleClass("toggle")
+                })
+                $("#video").click(function(){
+                    $("#vid").toggleClass("toggle")
+                })
+            </script>
+        </div>
+    </body>
+</html>
